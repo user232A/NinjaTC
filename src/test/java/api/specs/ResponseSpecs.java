@@ -18,4 +18,10 @@ public class ResponseSpecs {
         return new ResponseSpecBuilder()
                 .expectStatusCode(HttpStatus.SC_CREATED).build();
     }
+
+    public static ResponseSpecification operationOk() {
+        return new ResponseSpecBuilder()
+                .expectStatusCode(HttpStatus.SC_OK)
+                .build();
+    }
 }
