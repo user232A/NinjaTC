@@ -7,10 +7,10 @@ import api.specs.RequestSpecs;
 import api.specs.ResponseSpecs;
 import org.junit.jupiter.api.Test;
 
-public class BuildConfigurationCrudTests extends BaseTest{
+public class BuildConfigurationCrudTests extends BaseTest {
 
     @Test
-    public void adminCanCreateBuildTypeWithRequiredFields(){
+    public void adminCanCreateBuildTypeWithMinFields() {
 
         CreateBuildTypeModelRequest buildTypeModel = CreateBuildTypeModelRequest.builder()
                 .id("Test1")
