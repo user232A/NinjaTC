@@ -68,4 +68,3 @@ public class ValidatedCrudRequester<M extends BaseModel> extends HTTPRequest imp
         return crudRequester.get().extract().as(clazz);
     }
 }
-

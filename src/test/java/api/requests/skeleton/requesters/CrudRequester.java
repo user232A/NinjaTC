@@ -9,6 +9,7 @@ import io.restassured.response.ValidatableResponse;
 import api.requests.skeleton.interfaces.PathParamInterface;
 import api.requests.skeleton.interfaces.QueryParamInterface;
 import io.restassured.response.ValidatableResponse;
+import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 
