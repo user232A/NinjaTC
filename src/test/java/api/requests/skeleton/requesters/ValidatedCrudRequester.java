@@ -10,10 +10,10 @@ import io.restassured.specification.ResponseSpecification;
 public class ValidatedCrudRequester<M extends BaseModel> extends HTTPRequest implements CrudEndpointInterface {
   private final CrudRequester crudRequester;
 
-  public ValidatedCrudRequester(RequestSpecification requestSpecification, Endpoint endpoint, ResponseSpecification responseSpecification) {
-    super(requestSpecification, endpoint, responseSpecification);
-    crudRequester = new CrudRequester(requestSpecification, endpoint, responseSpecification);
-  }
+    public ValidatedCrudRequester(RequestSpecification requestSpecification, Endpoint endpoint, ResponseSpecification responseSpecification) {
+        super(requestSpecification, endpoint, responseSpecification);
+        this.crudRequester = new CrudRequester(requestSpecification, endpoint, responseSpecification);
+    }
 
   @Override
   public M post(BaseModel model) {
@@ -21,18 +21,22 @@ public class ValidatedCrudRequester<M extends BaseModel> extends HTTPRequest imp
   }
 
 
-  @Override
-  public Object get() {
-    return null;
-  }
+    @Override
+    public M get() {
+        return (M) crudRequester.get().extract().as(endpoint.getResponseModel());
+    }
 
-  @Override
-  public Object put(BaseModel model) {
-    return null;
-  }
+    @Override
+    public M put(BaseModel model) {
+        return (M) crudRequester.put(model).extract().as(endpoint.getResponseModel());
+    }
 
-  @Override
-  public Object delete(int id) {
-    return null;
-  }
+    @Override
+    public Object delete(int id) {
+        return null;
+    }
+
+    public CrudRequester addPathParam(String param, String value) {
+        return crudRequester.withPathParam(param, value);
+    }
 }

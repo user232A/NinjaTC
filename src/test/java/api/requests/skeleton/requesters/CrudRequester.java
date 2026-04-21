@@ -6,6 +6,7 @@ import api.requests.skeleton.HTTPRequest;
 import api.requests.skeleton.interfaces.CrudEndpointInterface;
 import io.restassured.response.ValidatableResponse;
 import api.requests.skeleton.interfaces.PathParamInterface;
+import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 
@@ -31,10 +32,10 @@ public class CrudRequester extends HTTPRequest implements CrudEndpointInterface 
     }
 
     @Override
-    public Object get() {
+    public ValidatableResponse get() {
         RequestSpecification reqSpec = given().spec(requestSpecification);
 
-        for (Map.Entry<String, Number> entry : pathParams.entrySet()) {
+        for (Map.Entry<String, String> entry : pathParams.entrySet()) {
             reqSpec.pathParam(entry.getKey(), entry.getValue());
         }
 
@@ -45,7 +46,7 @@ public class CrudRequester extends HTTPRequest implements CrudEndpointInterface 
     }
 
     @Override
-    public Object put(BaseModel model) {
+    public ValidatableResponse put(BaseModel model) {
         return null;
     }
 
@@ -55,7 +56,7 @@ public class CrudRequester extends HTTPRequest implements CrudEndpointInterface 
     }
 
     @Override
-    public CrudRequester withPathParam(String param, Number value) {
+    public CrudRequester withPathParam(String param, String value) {
         this.pathParams.put(param, value);
         return this;
     }
