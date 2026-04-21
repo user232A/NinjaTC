@@ -36,7 +36,9 @@ public class ValidatedCrudRequester<M extends BaseModel> extends HTTPRequest imp
         return null;
     }
 
-    public CrudRequester addPathParam(String param, String value) {
-        return crudRequester.withPathParam(param, value);
+    public ValidatedCrudRequester addPathParam(String param, String value) {
+        this.pathParams.put(param, value);
+        crudRequester.withPathParam(param, value);
+        return this;
     }
 }

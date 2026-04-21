@@ -2,6 +2,7 @@ package api.requests.skeleton;
 
 import api.models.BaseModel;
 import api.models.CreateBuildTypeModelRequest;
+import api.models.CreateBuildTypeModelResponse;
 import api.models.request.CreateUserRequest;
 import api.models.response.CreateUserResponse;
 import lombok.AllArgsConstructor;
@@ -23,14 +24,14 @@ public enum Endpoint {
     BUILD_TYPES_CREATE(
             "/app/rest/buildTypes",
             CreateBuildTypeModelRequest.class,
-            BaseModel.class,
+            CreateBuildTypeModelResponse.class,
             Map.of()
     ),
 
     BUILD_TYPES_GET(
             "/app/rest/buildTypes/{btLocator}",
             BaseModel.class,
-            BaseModel.class,
+            CreateBuildTypeModelResponse.class,
             Map.of("btLocator", String.class)
     );
 
