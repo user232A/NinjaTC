@@ -36,4 +36,10 @@ public class ResponseSpecs {
                 .expectStatusCode(HttpStatus.SC_NOT_FOUND)
                 .build();
     }
+
+    public static ResponseSpecification badRequest() {
+        return new ResponseSpecBuilder()
+                .expectStatusCode(HttpStatus.SC_BAD_REQUEST)
+                .build();
+    }
 }

@@ -71,6 +71,97 @@ public class BuildConfigurationCrudTests extends BaseTest {
                         .getAs(BuildTypesListResponse.class)
                         .getBuildTypes();
 
+        List<String> expectedIds = expectedListBuildTypes.stream()
+                .map(CreateBuildTypeModelResponse::getId)
+                .toList();
+
+        List<String> actualIds = actualListBuildTypes.stream()
+                .map(CreateBuildTypeModelResponse::getId)
+                .toList();
+
         softly.assertThat(actualListBuildTypes.size()).isEqualTo(expectedListBuildTypes.size());
+        softly.assertThat(actualIds).containsExactlyInAnyOrderElementsOf(expectedIds);
+        softly.assertThat(actualIds).doesNotContain(buildTypeModel.getId());
+    }
+
+    @Test
+    public void adminCanNotCreateBuildTypeWithDuplicateId() {
+
+        CreateBuildTypeModelRequest buildTypeModel = CreateBuildTypeModelRequest.builder()
+                .id("Test15")
+                .name("BuildType15")
+                .projectId("Test1")
+                .description("Test BuildType version 15.0")
+                .build();
+
+        new ValidatedCrudRequester<CreateBuildTypeModelResponse>(RequestSpecs.adminSpec(), Endpoint.BUILD_TYPES,
+                ResponseSpecs.operationOk())
+                .post(buildTypeModel);
+
+        List<CreateBuildTypeModelResponse> expectedListBuildTypes =
+                new ValidatedCrudRequester<CreateBuildTypeModelResponse>(RequestSpecs.adminSpec(),
+                        Endpoint.BUILD_TYPES, ResponseSpecs.operationOk())
+                        .withQueryParam("locator", "project:id:Test1")
+                        .getAs(BuildTypesListResponse.class)
+                        .getBuildTypes();
+
+        new CrudRequester(RequestSpecs.adminSpec(), Endpoint.BUILD_TYPES, ResponseSpecs.badRequest())
+                .post(buildTypeModel);
+
+        List<CreateBuildTypeModelResponse> actualListBuildTypes =
+                new ValidatedCrudRequester<CreateBuildTypeModelResponse>(RequestSpecs.adminSpec(),
+                        Endpoint.BUILD_TYPES, ResponseSpecs.operationOk())
+                        .withQueryParam("locator", "project:id:Test1")
+                        .getAs(BuildTypesListResponse.class)
+                        .getBuildTypes();
+
+        List<String> expectedIds = expectedListBuildTypes.stream()
+                .map(CreateBuildTypeModelResponse::getId)
+                .toList();
+
+        List<String> actualIds = actualListBuildTypes.stream()
+                .map(CreateBuildTypeModelResponse::getId)
+                .toList();
+
+        softly.assertThat(actualListBuildTypes.size()).isEqualTo(expectedListBuildTypes.size());
+        softly.assertThat(actualIds).containsExactlyInAnyOrderElementsOf(expectedIds);
+    }
+
+    @Test
+    public void canNotCreateBuildTypeInNonExistingProject() {
+
+        List<CreateBuildTypeModelResponse> expectedListBuildTypes =
+                new ValidatedCrudRequester<CreateBuildTypeModelResponse>(RequestSpecs.adminSpec(),
+                        Endpoint.BUILD_TYPES, ResponseSpecs.operationOk())
+                        .getAs(BuildTypesListResponse.class)
+                        .getBuildTypes();
+
+        CreateBuildTypeModelRequest buildTypeModel = CreateBuildTypeModelRequest.builder()
+                .id("Test14")
+                .name("BuildType14")
+                .projectId("FakeProject")
+                .description("Test BuildType version 14.0")
+                .build();
+
+        new CrudRequester(RequestSpecs.adminSpec(), Endpoint.BUILD_TYPES, ResponseSpecs.badRequest())
+                .post(buildTypeModel);
+
+        List<CreateBuildTypeModelResponse> actualListBuildTypes =
+                new ValidatedCrudRequester<CreateBuildTypeModelResponse>(RequestSpecs.adminSpec(),
+                        Endpoint.BUILD_TYPES, ResponseSpecs.operationOk())
+                        .getAs(BuildTypesListResponse.class)
+                        .getBuildTypes();
+
+        List<String> expectedIds = expectedListBuildTypes.stream()
+                .map(CreateBuildTypeModelResponse::getId)
+                .toList();
+
+        List<String> actualIds = actualListBuildTypes.stream()
+                .map(CreateBuildTypeModelResponse::getId)
+                .toList();
+
+        softly.assertThat(actualListBuildTypes.size()).isEqualTo(expectedListBuildTypes.size());
+        softly.assertThat(actualIds).containsExactlyInAnyOrderElementsOf(expectedIds);
+        softly.assertThat(actualIds).doesNotContain(buildTypeModel.getId());
     }
 }
