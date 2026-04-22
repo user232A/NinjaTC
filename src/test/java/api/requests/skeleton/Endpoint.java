@@ -1,7 +1,7 @@
 package api.requests.skeleton;
 
 import api.models.BaseModel;
-import api.models.CreateUserModelRequest;
+import api.models.CreateUserRequest;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -13,7 +13,7 @@ public enum Endpoint {
 
     USERS(
             "httpAuth/app/rest/users",
-            CreateUserModelRequest.class,
+            CreateUserRequest.class,
             BaseModel.class,
             Map.of()
     );
