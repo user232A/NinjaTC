@@ -24,4 +24,16 @@ public class ResponseSpecs {
                 .expectStatusCode(HttpStatus.SC_OK)
                 .build();
     }
+
+    public static ResponseSpecification unAuthorizedUser() {
+        return new ResponseSpecBuilder()
+                .expectStatusCode(HttpStatus.SC_UNAUTHORIZED)
+                .build();
+    }
+
+    public static ResponseSpecification notFound() {
+        return new ResponseSpecBuilder()
+                .expectStatusCode(HttpStatus.SC_NOT_FOUND)
+                .build();
+    }
 }

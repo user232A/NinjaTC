@@ -12,6 +12,7 @@ public class HTTPRequest {
     protected Endpoint endpoint;
     protected ResponseSpecification responseSpecification;
     protected Map<String, String> pathParams = new HashMap<>();
+    protected Map<String, String> queryParams = new HashMap<>();
 
     public HTTPRequest(RequestSpecification requestSpecification, Endpoint endpoint, ResponseSpecification
             responseSpecification) {

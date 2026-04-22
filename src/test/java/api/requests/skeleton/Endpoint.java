@@ -21,7 +21,7 @@ public enum Endpoint {
             Map.of()
     ),
 
-    BUILD_TYPES_CREATE(
+    BUILD_TYPES(
             "/app/rest/buildTypes",
             CreateBuildTypeModelRequest.class,
             CreateBuildTypeModelResponse.class,
