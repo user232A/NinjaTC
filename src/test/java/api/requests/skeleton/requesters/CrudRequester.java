@@ -4,6 +4,7 @@ import api.models.BaseModel;
 import api.requests.skeleton.Endpoint;
 import api.requests.skeleton.HTTPRequest;
 import api.requests.skeleton.interfaces.CrudEndpointInterface;
+import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 
@@ -15,13 +16,14 @@ public class CrudRequester extends HTTPRequest implements CrudEndpointInterface 
     }
 
     @Override
-    public Object post(BaseModel model) {
+    public ValidatableResponse post(BaseModel model) {
         var requestBody = model == null ? "" : model;
         return given()
                 .spec(requestSpecification)
                 .body(requestBody)
                 .post(endpoint.getUrl())
                 .then()
+                .assertThat()
                 .spec(responseSpecification);
     }
 

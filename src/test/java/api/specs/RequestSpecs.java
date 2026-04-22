@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class RequestSpecs {
 
-    private static Map<String, String> authHeaders = new HashMap<>(Map.of("admin", "Basic YWRtaW46YWRtaW4="));
+    private static Map<String, String> authHeaders = new HashMap<>(Map.of("admin", "Bearer eyJ0eXAiOiAiVENWMiJ9.czUyZEo2WC1yazJoYmUyUkpmN21jVGhEY2Nv.NjQ1NjBjMDktMzkwNy00YWU1LWI5Y2MtMmZiZDk2ZmMzYTIy"));
 
     private RequestSpecs() {
 
@@ -24,7 +24,7 @@ public class RequestSpecs {
                 .setContentType(ContentType.JSON)
                 .setAccept(ContentType.JSON)
                 .addFilters(List.of(new RequestLoggingFilter(), new ResponseLoggingFilter()))
-                .setBaseUri(Config.getProperty("api.base.url"));
+                .setBaseUri(Config.getProperty("apiBaseUrl"));
     }
 
     public static RequestSpecification unAuthSpec() {

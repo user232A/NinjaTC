@@ -1,4 +1,7 @@
 package api.models;
 
-public class BaseModel {
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+public abstract class BaseModel {
 }

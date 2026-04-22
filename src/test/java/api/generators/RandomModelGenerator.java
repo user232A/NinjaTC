@@ -11,10 +11,13 @@ public class RandomModelGenerator {
 
   private static final Random random = new Random();
 
-  public static <T> T generateUsernameAndPassword(Class<T> clazz) {
+
+  public static <T> T generate(Class<T> clazz, String... fieldNames) {
     try {
       T instance = clazz.getDeclaredConstructor().newInstance();
+      Set<String> requested = new HashSet<>(Arrays.asList(fieldNames));
       for (Field field : getAllFields(clazz)) {
+        if (!requested.contains(field.getName())) continue;
         GeneratingRule rule = field.getAnnotation(GeneratingRule.class);
         if (rule != null) {
           field.setAccessible(true);
