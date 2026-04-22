@@ -8,6 +8,30 @@ import java.util.Objects;
 
 public class ModelComparator {
 
+  public static <A, B> ComparisonResult compareNonNullFields(A request, B response) {
+    List<Mismatch> mismatches = new ArrayList<>();
+    Class<?> clazz = request.getClass();
+    while (clazz != null && clazz != Object.class) {
+      for (Field field : clazz.getDeclaredFields()) {
+        field.setAccessible(true);
+        try {
+          Object requestValue = field.get(request);
+          if (requestValue == null) continue;
+          Object responseValue = getFieldValue(response, field.getName());
+          if (!Objects.equals(String.valueOf(requestValue), String.valueOf(responseValue))) {
+            mismatches.add(new Mismatch(field.getName(), requestValue, responseValue));
+          }
+        } catch (IllegalAccessException e) {
+          throw new RuntimeException("Cannot access field: " + field.getName(), e);
+        } catch (RuntimeException e) {
+          // поле отсутствует в response — пропускаем
+        }
+      }
+      clazz = clazz.getSuperclass();
+    }
+    return new ComparisonResult(mismatches);
+  }
+
   public static <A, B> ComparisonResult compareFields(A request, B response, Map<String, String> fieldMappings) {
     List<Mismatch> mismatches = new ArrayList<>();
 

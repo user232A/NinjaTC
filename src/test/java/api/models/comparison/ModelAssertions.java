@@ -37,4 +37,12 @@ public class ModelAssertions extends AbstractAssert<ModelAssertions, Object> {
 
     return this;
   }
+
+  public ModelAssertions matchPopulatedFields() {
+    ModelComparator.ComparisonResult result = ModelComparator.compareNonNullFields(request, response);
+    if (!result.isSuccess()) {
+      failWithMessage("Model comparison failed with mismatched fields:\n%s", result);
+    }
+    return this;
+  }
 }

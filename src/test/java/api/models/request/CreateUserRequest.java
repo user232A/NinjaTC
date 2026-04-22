@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CreateUserRequest extends BaseModel {
     @GeneratingRule(regex = "^[a-z]{3,15}$")
     private String username;
@@ -24,6 +25,8 @@ public class CreateUserRequest extends BaseModel {
     private String email;
     @GeneratingRule(regex = "^[A-Z][a-z]{2,10} [A-Z][a-z]{2,10}$")
     private String name;
+    private Roles roles;
+    private Groups groups;
 
     public static CreateUserRequest getAdmin() {
         return CreateUserRequest.builder()

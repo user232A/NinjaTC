@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Role extends BaseModel {
+    @Builder.Default
     private UserRole roleId = UserRole.SYSTEM_ADMIN;
+    @Builder.Default
     private String scope = "g";
 }
