@@ -128,7 +128,7 @@ public class BuildConfigurationCrudTests extends BaseTest {
     }
 
     @Test
-    public void canNotCreateBuildTypeInNonExistingProject() {
+    public void adminCanNotCreateBuildTypeInNonExistingProject() {
 
         List<CreateBuildTypeModelResponse> expectedListBuildTypes =
                 new ValidatedCrudRequester<CreateBuildTypeModelResponse>(RequestSpecs.adminSpec(),
@@ -141,6 +141,43 @@ public class BuildConfigurationCrudTests extends BaseTest {
                 .name("BuildType14")
                 .projectId("FakeProject")
                 .description("Test BuildType version 14.0")
+                .build();
+
+        new CrudRequester(RequestSpecs.adminSpec(), Endpoint.BUILD_TYPES, ResponseSpecs.badRequest())
+                .post(buildTypeModel);
+
+        List<CreateBuildTypeModelResponse> actualListBuildTypes =
+                new ValidatedCrudRequester<CreateBuildTypeModelResponse>(RequestSpecs.adminSpec(),
+                        Endpoint.BUILD_TYPES, ResponseSpecs.operationOk())
+                        .getAs(BuildTypesListResponse.class)
+                        .getBuildTypes();
+
+        List<String> expectedIds = expectedListBuildTypes.stream()
+                .map(CreateBuildTypeModelResponse::getId)
+                .toList();
+
+        List<String> actualIds = actualListBuildTypes.stream()
+                .map(CreateBuildTypeModelResponse::getId)
+                .toList();
+
+        softly.assertThat(actualListBuildTypes.size()).isEqualTo(expectedListBuildTypes.size());
+        softly.assertThat(actualIds).containsExactlyInAnyOrderElementsOf(expectedIds);
+        softly.assertThat(actualIds).doesNotContain(buildTypeModel.getId());
+    }
+
+    @Test
+    public void adminCanNotCreateBuildTypeWithoutProjectId() {
+
+        List<CreateBuildTypeModelResponse> expectedListBuildTypes =
+                new ValidatedCrudRequester<CreateBuildTypeModelResponse>(RequestSpecs.adminSpec(),
+                        Endpoint.BUILD_TYPES, ResponseSpecs.operationOk())
+                        .getAs(BuildTypesListResponse.class)
+                        .getBuildTypes();
+
+        CreateBuildTypeModelRequest buildTypeModel = CreateBuildTypeModelRequest.builder()
+                .id("Test16")
+                .name("BuildType16")
+                .description("Test BuildType version 16.0")
                 .build();
 
         new CrudRequester(RequestSpecs.adminSpec(), Endpoint.BUILD_TYPES, ResponseSpecs.badRequest())
