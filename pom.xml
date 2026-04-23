@@ -17,6 +17,7 @@
         <jackson.version>2.20.0</jackson.version>
         <lombok.version>1.18.42</lombok.version>
         <assertj.version>3.27.6</assertj.version>
+        <rgxgen.version>1.3</rgxgen.version>
     </properties>
 
     <dependencies>
@@ -56,7 +57,7 @@
         <dependency>
             <groupId>com.github.curious-odd-man</groupId>
             <artifactId>rgxgen</artifactId>
-            <version>1.3</version>
+            <version>${rgxgen.version}</version>
         </dependency>
     </dependencies>
 

@@ -27,11 +27,4 @@ public class CreateUserRequest extends BaseModel {
     private String name;
     private Roles roles;
     private Groups groups;
-
-    public static CreateUserRequest getAdmin() {
-        return CreateUserRequest.builder()
-                                .username(Config.getProperty("admin.username"))
-                                .password(Config.getProperty("admin.password"))
-                                .build();
-    }
 }

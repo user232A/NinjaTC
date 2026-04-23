@@ -12,7 +12,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Group extends BaseModel {
-    private String key = "ALL_USERS_GROUP";
+    @Builder.Default
+    private GroupKey key = GroupKey.ALL_USERS_GROUP;
     private String name;
     private String href;
     private String description;

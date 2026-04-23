@@ -15,5 +15,5 @@ public class Role extends BaseModel {
     @Builder.Default
     private UserRole roleId = UserRole.SYSTEM_ADMIN;
     @Builder.Default
-    private String scope = "g";
+    private RoleScope scope = RoleScope.GLOBAL;
 }
