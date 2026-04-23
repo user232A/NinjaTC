@@ -1,0 +1,10 @@
+### POST new user
+POST http://localhost:8111/app/rest/users
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer eyJ0eXAiOiAiVENWMiJ9.czUyZEo2WC1yazJoYmUyUkpmN21jVGhEY2Nv.NjQ1NjBjMDktMzkwNy00YWU1LWI5Y2MtMmZiZDk2ZmMzYTIy
+
+{
+  "username": "fdsfdd",
+  "password": "test"
+}

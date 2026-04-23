@@ -1,0 +1,14 @@
+### Get all roles
+GET http://localhost:8111/app/rest/roles
+Accept: application/json
+Authorization: Bearer eyJ0eXAiOiAiVENWMiJ9.czUyZEo2WC1yazJoYmUyUkpmN21jVGhEY2Nv.NjQ1NjBjMDktMzkwNy00YWU1LWI5Y2MtMmZiZDk2ZmMzYTIy
+
+### Get all user groups
+GET http://localhost:8111/app/rest/userGroups
+Accept: application/json
+Authorization: Bearer eyJ0eXAiOiAiVENWMiJ9.czUyZEo2WC1yazJoYmUyUkpmN21jVGhEY2Nv.NjQ1NjBjMDktMzkwNy00YWU1LWI5Y2MtMmZiZDk2ZmMzYTIy
+
+### Get all users
+GET http://localhost:8111/app/rest/users
+Accept: application/json
+Authorization: Bearer eyJ0eXAiOiAiVENWMiJ9.czUyZEo2WC1yazJoYmUyUkpmN21jVGhEY2Nv.NjQ1NjBjMDktMzkwNy00YWU1LWI5Y2MtMmZiZDk2ZmMzYTIy

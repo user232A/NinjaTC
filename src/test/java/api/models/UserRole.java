@@ -1,0 +1,12 @@
+package api.models;
+
+public enum UserRole {
+  PROJECT_VIEWER,
+  PROJECT_DEVELOPER,
+  PROJECT_ADMIN,
+  AGENT_MANAGER,
+  TOOLS_INTEGRATION,
+  GUEST_ROLE,
+  USER_ROLE,
+  SYSTEM_ADMIN
+}
