@@ -1,15 +1,14 @@
 package api.models.request;
 
-import api.configs.Config;
 import api.generators.GeneratingRule;
-import api.models.BaseModel;
-import api.models.Groups;
-import api.models.Roles;
+import api.models.*;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -25,6 +24,12 @@ public class CreateUserRequest extends BaseModel {
     private String email;
     @GeneratingRule(regex = "^[A-Z][a-z]{2,10} [A-Z][a-z]{2,10}$")
     private String name;
-    private Roles roles;
-    private Groups groups;
+    @Builder.Default
+    private Roles roles = Roles.builder()
+            .role(List.of(Role.builder().build()))
+            .build();
+    @Builder.Default
+    private Groups groups = Groups.builder()
+            .group(List.of(Group.builder().build()))
+            .build();
 }
