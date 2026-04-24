@@ -2,7 +2,6 @@ package tests.api;
 
 import api.generators.RandomModelGenerator;
 import api.models.BuildTypesListResponse;
-import api.models.BuildTypesListResponse;
 import api.models.CreateBuildTypeModelRequest;
 import api.models.CreateBuildTypeModelResponse;
 import api.requests.skeleton.Endpoint;
@@ -14,8 +13,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Random;
-
-import java.util.List;
 
 public class BuildConfigurationCrudTests extends BaseTest {
 

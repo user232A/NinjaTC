@@ -36,7 +36,6 @@ public class ValidatedCrudRequester<M extends BaseModel> extends HTTPRequest imp
         return (M) crudRequester.put(model).extract().as(endpoint.getResponseModel());
     }
 
-
     @Override
     public void put(String text) {
         crudRequester.put(text);
