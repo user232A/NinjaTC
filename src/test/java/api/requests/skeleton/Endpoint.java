@@ -33,6 +33,16 @@ public enum Endpoint {
             BaseModel.class,
             CreateBuildTypeModelResponse.class,
             Map.of("btLocator", String.class)
+    ),
+
+    BUILD_TYPES_FIELD(
+            "/app/rest/buildTypes/{btLocator}/{field}",
+            BaseModel.class,
+            BaseModel.class,
+            Map.of(
+                    "btLocator", String.class,
+                    "field", String.class
+            )
     );
 
     private final String url;

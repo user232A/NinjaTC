@@ -20,5 +20,4 @@ public class HTTPRequest {
         this.endpoint = endpoint;
         this.responseSpecification = responseSpecification;
     }
-
 }

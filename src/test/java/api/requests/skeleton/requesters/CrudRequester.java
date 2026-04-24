@@ -57,6 +57,21 @@ public class CrudRequester extends HTTPRequest implements CrudEndpointInterface,
     }
 
     @Override
+    public void put(String text) {
+        RequestSpecification reqSpec = given().spec(requestSpecification);
+
+        for (Map.Entry<String, String> entry : pathParams.entrySet()) {
+            reqSpec.pathParam(entry.getKey(), entry.getValue());
+        }
+
+        reqSpec
+                .body(text)
+                .put(endpoint.getUrl())
+                .then()
+                .spec(responseSpecification);
+    }
+
+    @Override
     public Object delete(int id) {
         return null;
     }

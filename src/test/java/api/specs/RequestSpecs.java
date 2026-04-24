@@ -13,32 +13,46 @@ import java.util.Map;
 
 public class RequestSpecs {
 
-  private static Map<String, String> authHeaders = new HashMap<>(Map.of("admin", "Basic YWRtaW46YWRtaW4="));
+    private static final Map<String, String> authHeaders = new HashMap<>(Map.of("admin", "Basic YWRtaW46YWRtaW4="));
 
     private RequestSpecs() {
 
     }
 
-    private static RequestSpecBuilder defaultRequestBuilder() {
+    private static RequestSpecBuilder defaultRequestBuilder(ContentType contentType, ContentType accept) {
         return new RequestSpecBuilder()
-                .setContentType(ContentType.JSON)
-                .setAccept(ContentType.JSON)
+                .setContentType(contentType)
+                .setAccept(accept)
                 .addFilters(List.of(new RequestLoggingFilter(), new ResponseLoggingFilter()))
                 .setBaseUri(Config.getProperty("apiBaseUrl"));
     }
 
+    private static RequestSpecBuilder jsonRequestBuilder() {
+        return defaultRequestBuilder(ContentType.JSON, ContentType.JSON);
+    }
+
+    private static RequestSpecBuilder textRequestBuilder() {
+        return defaultRequestBuilder(ContentType.TEXT, ContentType.TEXT);
+    }
+
     public static RequestSpecification unAuthSpec() {
-        return defaultRequestBuilder().build();
+        return jsonRequestBuilder().build();
     }
 
     public static RequestSpecification adminSpec() {
-        return defaultRequestBuilder()
+        return jsonRequestBuilder()
+                .addHeader("Authorization", authHeaders.get("admin"))
+                .build();
+    }
+
+    public static RequestSpecification adminTextSpec() {
+        return textRequestBuilder()
                 .addHeader("Authorization", authHeaders.get("admin"))
                 .build();
     }
 
     public static RequestSpecification userSpec(String token) {
-        return defaultRequestBuilder()
+        return jsonRequestBuilder()
                 .addHeader("Authorization", token)
                 .build();
     }
