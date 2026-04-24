@@ -2,7 +2,9 @@ package api.requests.skeleton;
 
 import api.models.BaseModel;
 import api.models.request.CreateUserRequest;
+import api.models.request.CreateVcsRootRequest;
 import api.models.response.CreateUserResponse;
+import api.models.response.CreateVcsRootResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -13,6 +15,11 @@ public enum Endpoint {
             "/app/rest/users",
             CreateUserRequest.class,
             CreateUserResponse.class
+    ),
+    VCS_ROOTS(
+            "/app/rest/vcs-roots",
+            CreateVcsRootRequest.class,
+            CreateVcsRootResponse.class
     );
 
     private final String url;
