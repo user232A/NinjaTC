@@ -10,6 +10,12 @@ public class ModelComparator {
 
   public static <A, B> ComparisonResult compareNonNullFields(A request, B response) {
     List<Mismatch> mismatches = new ArrayList<>();
+    collectMismatches(request, response, "", mismatches);
+    return new ComparisonResult(mismatches);
+  }
+
+  private static void collectMismatches(Object request, Object response, String prefix, List<Mismatch> mismatches) {
+    if (request == null) return;
     Class<?> clazz = request.getClass();
     while (clazz != null && clazz != Object.class) {
       for (Field field : clazz.getDeclaredFields()) {
@@ -18,8 +24,26 @@ public class ModelComparator {
           Object requestValue = field.get(request);
           if (requestValue == null) continue;
           Object responseValue = getFieldValue(response, field.getName());
-          if (!Objects.equals(String.valueOf(requestValue), String.valueOf(responseValue))) {
-            mismatches.add(new Mismatch(field.getName(), requestValue, responseValue));
+          String fieldPath = prefix.isEmpty() ? field.getName() : prefix + "." + field.getName();
+          if (isSimpleType(requestValue)) {
+            if (!Objects.equals(String.valueOf(requestValue), String.valueOf(responseValue))) {
+              mismatches.add(new Mismatch(fieldPath, requestValue, responseValue));
+            }
+          } else if (requestValue instanceof List<?> requestList) {
+            List<?> responseList = responseValue instanceof List<?> ? (List<?>) responseValue : List.of();
+            for (int i = 0; i < requestList.size(); i++) {
+              Object reqItem = requestList.get(i);
+              Object resItem = i < responseList.size() ? responseList.get(i) : null;
+              if (isSimpleType(reqItem)) {
+                if (!Objects.equals(String.valueOf(reqItem), String.valueOf(resItem))) {
+                  mismatches.add(new Mismatch(fieldPath + "[" + i + "]", reqItem, resItem));
+                }
+              } else {
+                collectMismatches(reqItem, resItem, fieldPath + "[" + i + "]", mismatches);
+              }
+            }
+          } else {
+            collectMismatches(requestValue, responseValue, fieldPath, mismatches);
           }
         } catch (IllegalAccessException e) {
           throw new RuntimeException("Cannot access field: " + field.getName(), e);
@@ -29,7 +53,13 @@ public class ModelComparator {
       }
       clazz = clazz.getSuperclass();
     }
-    return new ComparisonResult(mismatches);
+  }
+
+  private static boolean isSimpleType(Object value) {
+    return value instanceof String
+        || value instanceof Number
+        || value instanceof Boolean
+        || value instanceof Enum;
   }
 
   public static <A, B> ComparisonResult compareFields(A request, B response, Map<String, String> fieldMappings) {
