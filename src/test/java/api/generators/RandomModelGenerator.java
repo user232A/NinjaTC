@@ -3,6 +3,7 @@ package api.generators;
 import com.github.curiousoddman.rgxgen.RgxGen;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.*;
@@ -12,15 +13,40 @@ public class RandomModelGenerator {
   private static final Random random = new Random();
 
 
+  @SuppressWarnings("unchecked")
+  public static <T> T generateWithDefaults(Class<T> clazz) {
+    try {
+      Method builderMethod = clazz.getDeclaredMethod("builder");
+      Object builder = builderMethod.invoke(null);
+      Method buildMethod = builder.getClass().getDeclaredMethod("build");
+      T instance = (T) buildMethod.invoke(builder);
+      for (Field field : getAllFields(clazz)) {
+        GeneratingRule rule = field.getAnnotation(GeneratingRule.class);
+        if (rule != null) {
+          field.setAccessible(true);
+          field.set(instance, generateFromRegex(rule.regex(), field.getType()));
+        }
+      }
+      return instance;
+    } catch (Exception e) {
+      throw new RuntimeException("Failed to generate entity", e);
+    }
+  }
+
   public static <T> T generate(Class<T> clazz, String... fieldNames) {
     try {
       T instance = clazz.getDeclaredConstructor().newInstance();
       Set<String> requested = new HashSet<>(Arrays.asList(fieldNames));
       for (Field field : getAllFields(clazz)) {
-        if (!requested.contains(field.getName())) continue;
+        field.setAccessible(true);
+        if (!requested.contains(field.getName())) {
+          if (!field.getType().isPrimitive()) {
+            field.set(instance, null);
+          }
+          continue;
+        }
         GeneratingRule rule = field.getAnnotation(GeneratingRule.class);
         if (rule != null) {
-          field.setAccessible(true);
           field.set(instance, generateFromRegex(rule.regex(), field.getType()));
         }
       }

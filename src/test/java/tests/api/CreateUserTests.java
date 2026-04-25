@@ -11,6 +11,8 @@ import api.requests.skeleton.Endpoint;
 import api.requests.skeleton.requesters.ValidatedCrudRequester;
 import api.specs.RequestSpecs;
 import api.specs.ResponseSpecs;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.EnumSource;
@@ -57,4 +59,15 @@ public class CreateUserTests extends BaseTest {
                 .post(userRequest);
       ModelAssertions.assertThatModels(userRequest, userResponse).matchPopulatedFields();
     }
+  @Test
+  @DisplayName("Admin can create user with valid group")
+  public void adminCanCreateUserWithValidRole() {
+    CreateUserRequest userRequest = RandomModelGenerator.generateWithDefaults(CreateUserRequest.class);
+    CreateUserResponse userResponse = new ValidatedCrudRequester<CreateUserResponse>(
+            RequestSpecs.adminSpec(),
+            Endpoint.USERS,
+            ResponseSpecs.operationOk())
+            .post(userRequest);
+    ModelAssertions.assertThatModels(userRequest, userResponse).matchPopulatedFields();
+  }
 }
