@@ -5,7 +5,6 @@ import api.requests.skeleton.Endpoint;
 import api.requests.skeleton.HTTPRequest;
 import api.requests.skeleton.interfaces.CrudEndpointInterface;
 import api.requests.skeleton.interfaces.GetAllEndpointInterface;
-import io.restassured.response.ValidatableResponse;
 import api.requests.skeleton.interfaces.PathParamInterface;
 import api.requests.skeleton.interfaces.QueryParamInterface;
 import io.restassured.response.ValidatableResponse;
@@ -25,12 +24,16 @@ public class CrudRequester extends HTTPRequest implements CrudEndpointInterface,
     @Override
     public ValidatableResponse post(BaseModel model) {
         var requestBody = model == null ? "" : model;
-        return given()
-                .spec(requestSpecification)
+        RequestSpecification reqSpec = given().spec(requestSpecification);
+
+        for (Map.Entry<String, String> entry : pathParams.entrySet()) {
+            reqSpec.pathParam(entry.getKey(), entry.getValue());
+        }
+
+        return reqSpec
                 .body(requestBody)
                 .post(endpoint.getUrl())
                 .then()
-                .assertThat()
                 .spec(responseSpecification);
     }
 

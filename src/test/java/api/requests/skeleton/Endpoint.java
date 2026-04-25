@@ -3,6 +3,8 @@ package api.requests.skeleton;
 import api.models.BaseModel;
 import api.models.CreateBuildTypeModelRequest;
 import api.models.CreateBuildTypeModelResponse;
+import api.models.common.PropertiesDto;
+import api.models.common.PropertyDto;
 import api.models.request.CreateUserRequest;
 import api.models.request.CreateVcsRootRequest;
 import api.models.response.CreateUserResponse;
@@ -51,6 +53,20 @@ public enum Endpoint {
                     "btLocator", String.class,
                     "field", String.class
             )
+    ),
+
+    BUILD_TYPES_PARAMETERS(
+            "/app/rest/buildTypes/{btLocator}/parameters",
+            PropertyDto.class,
+            PropertyDto.class,
+            Map.of("btLocator", String.class)
+    ),
+
+    BUILD_TYPES_PARAMETERS_GET(
+            "/app/rest/buildTypes/{btLocator}/parameters",
+            BaseModel.class,
+            PropertiesDto.class,
+            Map.of("btLocator", String.class)
     );
 
     private final String url;
