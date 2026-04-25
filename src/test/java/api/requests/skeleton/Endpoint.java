@@ -4,7 +4,9 @@ import api.models.BaseModel;
 import api.models.CreateBuildTypeModelRequest;
 import api.models.CreateBuildTypeModelResponse;
 import api.models.request.CreateUserRequest;
+import api.models.request.CreateVcsRootRequest;
 import api.models.response.CreateUserResponse;
+import api.models.response.CreateVcsRootResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -18,6 +20,12 @@ public enum Endpoint {
             "/app/rest/users",
             CreateUserRequest.class,
             CreateUserResponse.class,
+            Map.of()
+    ),
+    VCS_ROOTS(
+            "/app/rest/vcs-roots",
+            CreateVcsRootRequest.class,
+            CreateVcsRootResponse.class,
             Map.of()
     ),
 
