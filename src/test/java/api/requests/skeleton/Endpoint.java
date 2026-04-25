@@ -27,6 +27,7 @@ public enum Endpoint {
             CreateVcsRootRequest.class,
             CreateVcsRootResponse.class,
             Map.of()
+    ),
 
     BUILD_TYPES(
             "/app/rest/buildTypes",
