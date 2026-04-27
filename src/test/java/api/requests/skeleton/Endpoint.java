@@ -67,6 +67,16 @@ public enum Endpoint {
             BaseModel.class,
             PropertiesDto.class,
             Map.of("btLocator", String.class)
+    ),
+
+    BUILD_TYPES_FIELD_PARAMETERS_UPDATE(
+            "/app/rest/buildTypes/{btLocator}/parameters/{name}",
+            PropertyDto.class,
+            PropertyDto.class,
+            Map.of(
+                    "btLocator", String.class,
+                    "name", String.class
+            )
     );
 
     private final String url;
