@@ -13,7 +13,7 @@ import java.util.List;
 
 public class ValidatedCrudRequester<M extends BaseModel> extends HTTPRequest implements CrudEndpointInterface, GetAllEndpointInterface {
 
-    private CrudRequester crudRequester;
+    private final CrudRequester crudRequester;
 
     public ValidatedCrudRequester(RequestSpecification requestSpecification, Endpoint endpoint, ResponseSpecification responseSpecification) {
         super(requestSpecification, endpoint, responseSpecification);
@@ -67,5 +67,12 @@ public class ValidatedCrudRequester<M extends BaseModel> extends HTTPRequest imp
     public <R> R getAs(Class<R> clazz) {
         return crudRequester.get().extract().as(clazz);
     }
-}
 
+    public <R> R postAs(BaseModel model, Class<R> clazz) {
+        return crudRequester.post(model).extract().as(clazz);
+    }
+
+    public <R> R putAs(BaseModel model, Class<R> clazz) {
+        return crudRequester.put(model).extract().as(clazz);
+    }
+}
